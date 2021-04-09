@@ -13,20 +13,21 @@ public enum Function {
         },
         SECOND {    //y = cos x
             public double f(double x) {
-                return cos(x);
+                return sin(x) / x;
             }
             @Override
             public String toString() {
-                return "y = cos x";
+                return "y = sin x / x";
             }
         },
         THIRD { //e^x - 2
             public double f(double x) {
-                return exp(x) - 2;
+                return 1/x;
             }
+
             @Override
             public String toString() {
-                return "y = exp(x) - 2";
+                return "y = 1/x";
             }
         };
         public abstract double f(double x);

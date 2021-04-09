@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class Integral {
@@ -18,10 +19,22 @@ public class Integral {
         this.eps = eps;
     }
 
-    public void start() {
+    public void start() throws IOException, InputException {
+        if (function == Function.SECOND){
+            a = a + eps;
+            b = b - eps;
+        }
+        if (function == Function.THIRD){
+            if (Math.abs(a) == Math.abs(b)){
+                a = 0.1;
+            }
+            else{
+                throw new InputException("Интервал должен быть симметричным");
+            }
+        }
         do {
             I_0 = result;
-            n *= 2;
+
             switch (method) {
                 case trapezoid:
                     methodTrapezoid();
@@ -39,7 +52,12 @@ public class Integral {
                     methodLeft();
                     break;
             }
-        } while (getAccuracy());
+            n *= 2;
+            if (n > 10000000){
+                System.out.println(n);
+                throw new IOException("Нельзя найти ответ.");
+            }
+        } while (getAccuracy() );
     }
 
     public boolean getAccuracy(){
@@ -103,6 +121,7 @@ public class Integral {
         x_i = a;
         sum = function.f(a);
         h = (b - a) / n;
+        //TODO: проверить! проблема с выводом n - делим на 4?
         for (int i = 1; i < n; i++) {
             x_i += h;
             if (i % 2 == 0) {
@@ -129,9 +148,12 @@ public class Integral {
 
 
     public void getResult() {
+        if (function == Function.THIRD){
+            result = result*2;
+        }
         DecimalFormat decimalFormat = new DecimalFormat("#.###");
         String resultX = decimalFormat.format(result);
         System.out.println("Ответ : " + resultX);
-        System.out.println("Число разбиения интервала интегрирования : " + n);
+        System.out.println("Число разбиения интервала интегрирования : " + n/2);
     }
 }

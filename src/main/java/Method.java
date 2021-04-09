@@ -1,7 +1,7 @@
 public enum Method {
-    leftRectangle("метод левых треугольников"),
-    rightRectangle("метод правых треугольников"),
-    middleRectangle("метод средних треугольников"),
+    leftRectangle("метод левых прямоугольников"),
+    rightRectangle("метод правых прямоугольников"),
+    middleRectangle("метод средних прямоугольников"),
     simpson("метод Симпсона"),
     trapezoid("метод трапеций");
 

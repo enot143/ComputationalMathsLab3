@@ -2,7 +2,7 @@ import java.io.*;
 
 public class Input {
 
-    public Input() throws IOException {
+    public Input() {
         getFromKeyboard();
     }
 
@@ -50,34 +50,39 @@ public class Input {
                 }
             } catch (Exception e) {
                 correctInput = false;
-                System.out.println("Ввод некорректен. Попробуйте еще раз.");
+                if (e.getClass() == InputException.class){
+                    System.out.println("Ввод некорректен. " + e.getMessage() +  " Попробуйте еще раз.");
+                } else System.out.println("Ввод некорректен. " + " Попробуйте еще раз.");
             }
         }
     }
 
-    private void inputEps() throws IOException {
+    private void inputEps() throws IOException, InputException {
         eps = Double.parseDouble(keyboardReader.readLine());
-        if (eps.toString().trim().equals("")) throw new IOException();
+        if (eps <= 0 || eps >= 1) throw new InputException("Погрешность должна быть в пределах (0,1).");
+//        if (eps.toString().trim().equals("")) throw new IOException("Поле пустое.");
     }
 
     private void inputA() throws IOException {
         a = Double.parseDouble(keyboardReader.readLine());
-        if (a.toString().trim().equals("")) throw new IOException();
+//        if (a.toString().trim().equals("")) throw new IOException("Поле пустое");
     }
 
-    private void inputB() throws IOException {
+    private void inputB() throws IOException, InputException {
         b = Double.parseDouble(keyboardReader.readLine());
-        if (b.toString().trim().equals("")) throw new IOException();
+        if (b <= a) throw new InputException("Верхний предел должен быть больше нижнего.");
+//        if (b.toString().trim().equals("")) throw new IOException("Поле пустое.");
     }
 
-    private void inputMethod() throws IOException {
+    private void inputMethod() throws IOException, InputException {
         System.out.println("Введите число от 1 до 5:");
         System.out.println("1: " + Method.leftRectangle.toString());
         System.out.println("2: " + Method.rightRectangle.toString());
         System.out.println("3: " + Method.middleRectangle.toString());
         System.out.println("4: " + Method.simpson.toString());
         System.out.println("5: " + Method.trapezoid.toString());
-        int a = Integer.parseInt(keyboardReader.readLine());
+        int a = 0;
+        a = Integer.parseInt(keyboardReader.readLine());
         switch (a) {
             case 1:
                 method = Method.leftRectangle;
@@ -95,11 +100,11 @@ public class Input {
                 method = Method.trapezoid;
                 break;
             default:
-                throw new IOException();
+                throw new InputException("");
         }
     }
 
-    private void inputFunction() throws IOException {
+    private void inputFunction() throws IOException, InputException {
         System.out.println("Введите число от 1 до 3.");
         System.out.println("1: " + Function.FIRST.toString());
         System.out.println("2 : " + Function.SECOND.toString());
@@ -116,7 +121,7 @@ public class Input {
                 function = Function.THIRD;
                 break;
             default:
-                throw new IOException();
+                throw new InputException("");
         }
     }
 
